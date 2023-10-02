@@ -563,12 +563,12 @@
 +       return seq_open(file, &arpnat_cache_sops);
 +}
 +
-+static struct proc_ops arpnat_cache_fops = {
++static struct file_operations arpnat_cache_fops = {
 +       /** .proc_owner   = THIS_MODULE, **/
-+       .proc_open    = arpnat_cache_open,
-+       .proc_read    = seq_read,
-+       .proc_lseek  = seq_lseek,
-+       .proc_release = seq_release
++       .open    = arpnat_cache_open,
++       .read    = seq_read,
++       .llseek  = seq_lseek,
++       .release = seq_release
 +};
 +
 +__STATIC int arpnat_ctl_show(struct seq_file *seq, void *v)
@@ -605,12 +605,12 @@
 +       return count;
 +}
 +
-+static struct proc_ops arpnat_ctl_fops = {
-+       .proc_open = arpnat_ctl_open,
-+       .proc_write = arpnat_ctl_write,
-+       .proc_read = seq_read,
-+       .proc_lseek = seq_lseek,
-+       .proc_release = single_release,
++static struct file_operations arpnat_ctl_fops = {
++       .open = arpnat_ctl_open,
++       .write = arpnat_ctl_write,
++       .read = seq_read,
++       .llseek = seq_lseek,
++       .release = single_release,
 +};
 +#endif
 +
