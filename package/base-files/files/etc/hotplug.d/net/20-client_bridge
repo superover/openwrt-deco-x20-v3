@@ -7,13 +7,20 @@
 #
 # You must have the arpnat ebtables module for this to work
 ######################################################################
-insmod ebt_arpnat || true
-is_ath=$(echo $INTERFACE | grep phy)
-if [ -n "$is_ath" ] ; then
+insmod ebt_arpnat
+#echo "file ebt_arpnat.c +pmf" >  /sys/kernel/debug/dynamic_debug/control
+#echo 600 32 1 1 > /proc/arpnat
+is_phy=$(echo $INTERFACE | grep phy)
+is_wlan=$(echo $INTERFACE | grep wlan)
+if [ -n "$is_phy$is_wlan" ] ; then
         if [ "$ACTION" = "add" -o "$ACTION" = "register" ] ; then
                 sleep 2
                 managed=$(iw $INTERFACE info 2>/dev/null | grep "managed")
-                wiphy=$(iw $INTERFACE info | grep wiphy | cut -f2 -d':' | tr -d ' ')
+		if [ -n "$is_phy" ]; then
+                	wiphy=$(iw $INTERFACE info | grep phy | cut -f2 -d':' | tr -d ' ')
+		else
+			wiphy=$(iw $INTERFACE info | grep phy | cut -f2 -d' ')
+		fi
                 if [ -n "$managed" ] ; then
                         device_section=$(uci show wireless | grep "device='radio$wiphy'" | cut -f1-2 -d'.')
                         sta_section=$(uci show $device_section | grep "mode='sta'$" | sed "s/\.mode='sta'//g")
@@ -22,12 +29,12 @@ if [ -n "$is_ath" ] ; then
                                 if [ "$client_bridge" = "1" ] ; then
                                         ebtables -t nat -F PREROUTING
                                         ebtables -t nat -F POSTROUTING
-                                        ebtables-legacy -t broute -F BROUTING
+                                        ebtables -t broute -F BROUTING
 
                                         ebtables -t nat -A PREROUTING  --in-interface  $INTERFACE -j arpnat --arpnat-target ACCEPT
                                         ebtables -t nat -A POSTROUTING --out-interface $INTERFACE -j arpnat --arpnat-target ACCEPT
                                         
-                                        ebtables-legacy -t broute -A BROUTING --in-interface  $INTERFACE --protocol 0x888e -j DROP
+                                        ebtables -t broute -A BROUTING --in-interface  $INTERFACE --protocol 0x888e -j DROP
 
                                         mkdir -p /tmp/client_bridge
                                         touch "/tmp/client_bridge/$INTERFACE"
@@ -39,7 +46,7 @@ if [ -n "$is_ath" ] ; then
                 if [ -e "/tmp/client_bridge/$INTERFACE" ] ; then
                         ebtables -t nat -F PREROUTING
                         ebtables -t nat -F POSTROUTING
-                        ebtables-legacy -t broute -F BROUTING
+                        ebtables -t broute -F BROUTING
                 fi
         fi
 fi
