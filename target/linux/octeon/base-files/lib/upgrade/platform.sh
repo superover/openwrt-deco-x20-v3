@@ -35,7 +35,8 @@ platform_copy_config() {
 		platform_copy_config_helper /dev/mmcblk1p1
 		;;
 	ubnt,edgerouter-4|\
-	ubnt,edgerouter-6p)
+	ubnt,edgerouter-6p|\
+	ubnt,edgerouter-12)
 		platform_copy_config_helper /dev/mmcblk0p1
 		;;
 	esac
@@ -88,8 +89,9 @@ platform_do_upgrade() {
 	[ -b "${rootfs}" ] || return 1
 	case "$board" in
 	er | \
-	ubnt,edgerouter-4 | \
-	ubnt,edgerouter-6p)
+	ubnt,edgerouter-4|\
+	ubnt,edgerouter-6p|\
+	ubnt,edgerouter-12)
 		kernel=mmcblk0p1
 		;;
 	erlite|\
@@ -122,6 +124,7 @@ platform_check_image() {
 	itus,shield-router | \
 	ubnt,edgerouter-4 | \
 	ubnt,edgerouter-6p | \
+	ubnt,edgerouter-12 | \
 	ubnt,usg)
 		local kernel_length=$(tar xf $tar_file $board_dir/kernel -O | wc -c 2> /dev/null)
 		local rootfs_length=$(tar xf $tar_file $board_dir/root -O | wc -c 2> /dev/null)

@@ -74,6 +74,13 @@ define Device/ubnt_edgerouter-6p
 endef
 TARGET_DEVICES += ubnt_edgerouter-6p
 
+define Device/ubnt_edgerouter-12
+  $(Device/ubnt_edgerouter-e300)
+  DEVICE_MODEL := EdgeRouter 12
+  DEVICE_DTS := cn7130_ubnt_edgerouter-12
+endef
+TARGET_DEVICES += ubnt_edgerouter-12
+
 ERLITE_CMDLINE:=-mtdparts=phys_mapped_flash:512k(boot0)ro,512k(boot1)ro,64k(eeprom)ro root=/dev/sda2 rootfstype=squashfs,ext4 rootwait
 define Device/ubnt_edgerouter-lite
   DEVICE_VENDOR := Ubiquiti
