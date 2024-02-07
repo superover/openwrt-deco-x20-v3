@@ -96,11 +96,11 @@
 		};
 
 		ethernet@2 {
-			label = "lan0";
+			label = "lan8";
 		};
 
 		ethernet@3 {
-			label = "lan1";
+			label = "lan9";
 		};
 	};
 
@@ -108,7 +108,7 @@
 		status = "okay";
 
 		ethernet@0 {
-			label = "lan2";
+			label = "lan4";
 			status = "okay";
 			phy-mode = "sgmii";
 			phy-handle = <&phy8>;
@@ -117,7 +117,7 @@
 		};
 
 		ethernet@1 {
-			label = "lan3";
+			label = "lan5";
 			status = "okay";
 			phy-mode = "sgmii";
 			phy-handle = <&phy9>;
@@ -126,7 +126,7 @@
 		};
 
 		ethernet@2 {
-			label = "lan4";
+			label = "lan6";
 			status = "okay";
 			phy-mode = "sgmii";
 			phy-handle = <&phy10>;
@@ -135,7 +135,7 @@
 		};
 
 		ethernet@3 {
-			label = "lan5";
+			label = "lan7";
 			status = "okay";
 			phy-mode = "sgmii";
 			phy-handle = <&phy11>;
@@ -148,7 +148,7 @@
 		status = "okay";
 
 		ethernet@0 {
-			label = "lan6";
+			label = "lan0";
 			status = "okay";
 			phy-mode = "sgmii";
 			phy-handle = <&phy0>;
@@ -157,7 +157,7 @@
 		};
 
 		ethernet@1 {
-			label = "lan7";
+			label = "lan1";
 			status = "okay";
 			phy-mode = "sgmii";
 			phy-handle = <&phy1>;
@@ -166,7 +166,7 @@
 		};
 
 		ethernet@2 {
-			label = "lan8";
+			label = "lan2";
 			status = "okay";
 			phy-mode = "sgmii";
 			phy-handle = <&phy2>;
@@ -175,7 +175,7 @@
 		};
 
 		ethernet@3 {
-			label = "lan9";
+			label = "lan3";
 			status = "okay";
 			phy-mode = "sgmii";
 			phy-handle = <&phy3>;
