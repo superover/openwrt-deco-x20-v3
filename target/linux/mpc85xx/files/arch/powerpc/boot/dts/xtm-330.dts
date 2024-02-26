@@ -172,13 +172,13 @@
 			compatible = "gianfar";
 			reg = <0x24000 0x1000>;
 			ranges = <0x00 0x24000 0x1000>;
+			local-mac-address = [00 00 00 00 00 00];
+			interrupts = <0x1d 0x02 0x00 0x00 0x1e 0x02 0x00 0x00 0x22 0x02 0x00 0x00>;
+			interrupt-parent = <0x01>;
+			fixed-link = <0x01 0x01 0x3e8 0x00 0x00>;
 			phy-connection-type = "rgmii-id";
 			fsl,magic-packet;
-			
-			fixed-link {
-				speed = <1000>;
-				full-duplex;
-			};
+			fsl,pmc-handle = <0x03>;
 
 			mdio@520 {
 				#address-cells = <0x01>;
@@ -186,142 +186,18 @@
 				compatible = "fsl,gianfar-mdio";
 				reg = <0x520 0x20>;
 
-				switch0: phy0: ethernet-phy@0 {
-					compatible = "marvell,mv88e6085";
+				ethernet-phy@0 {
+					interrupt-parent = <0x01>;
+					interrupts = <0x00 0x01>;
 					reg = <0x11>;
-					
-					dsa,member = <0 0>;
-					
-					mdio {
-						#address-cells = <1>;
-						#size-cells = <0>;
-	 
-						switch0phy0: switch0phy0@0 {
-							reg = <0x00>;
-							interrupt-parent = <&switch0>;
-						};
-	 
-						switch0phy1: switch0phy1@1 {
-							reg = <0x01>;
-							interrupt-parent = <&switch0>;
-						};
-	 
-						 switch0phy2: switch0phy2@2 {
-							reg = <0x02>;
-							interrupt-parent = <&switch0>;
-						 };
-
-						 switch0phy3: switch0phy3@3 {
-							reg = <0x03>;
-							interrupt-parent = <&switch0>;
-						 };
-
-						 switch0phy4: switch0phy4@4 {
-							reg = <0x04>;
-							interrupt-parent = <&switch0>;
-						 };
-					};
-					
-					ports {
-						port@0 {
-							reg = <0>;
-							label = "seth4";
-							phy-handle = <&switch0phy0>;
-						};
-
-						port@1 {
-							reg = <1>;
-							label = "seth5";
-							phy-handle = <&switch0phy1>;
-						};
-
-						port@2 {
-							reg = <2>;
-							label = "seth6";
-							phy-handle = <&switch0phy2>;
-						};
-
-						port@3 {
-							reg = <3>;
-							label = "sw0p3";
-							phy-handle = <&switch0phy3>;
-						};
-
-						port@4 {
-							reg = <4>;
-							label = "sw0p4";
-							phy-handle = <&switch0phy4>;
-						};
-
-						switch0port6: port@6 {
-							reg = <6>;
-							label = "cpu";
-							ethernet = <&enet2>;
-							phy-mode = "rgmii-id";
-							fixed-link {
-								speed = <1000>;
-								full-duplex;
-							};
-						};
-					};
 				};
 
-				switch1: phy1: ethernet-phy@1 {
-					compatible = "marvell,mv88e6085";
+				ethernet-phy@1 {
+					interrupt-parent = <0x01>;
+					interrupts = <0x00 0x01>;
 					reg = <0x10>;
-
-					dsa,member = <1 0>;
-
-					mdio {
-						#address-cells = <1>;
-						#size-cells = <0>;
-
-						switch1phy0: switch1phy0@0 {
-							reg = <0x00>;
-							interrupt-parent = <&switch1>;
-						};
-
-						switch1phy1: switch1phy1@1 {
-							reg = <0x01>;
-							interrupt-parent = <&switch1>;
-						};
-
-						switch1phy2: switch1phy2@2 {
-							reg = <0x02>;
-							interrupt-parent = <&switch1>;
-						};
-					};
-
-					ports {
-						port@0 {
-							reg = <0>;
-							label = "sw1p0";
-							phy-handle = <&switch1phy0>;
-						};
-
-						port@1 {
-							reg = <1>;
-							label = "sw1p1";
-							phy-handle = <&switch1phy1>;
-						};
-
-						port@2 {
-							reg = <2>;
-							label = "sw1p2";
-							phy-handle = <&switch1phy2>;
-						};
-
-						switch1port6: port@6 {
-							reg = <6>;
-							label = "cpu";
-							ethernet = <&enet0>;
-							phy-mode = "rgmii-td";
-							fixed-link {
-								speed = <1000>;
-								full-duplex;
-							};
-						};
-					};
+					linux,phandle = <0x04>;
+					phandle = <0x04>;
 				};
 			};
 		};
@@ -339,17 +215,26 @@
 			compatible = "gianfar";
 			reg = <0x26000 0x1000>;
 			ranges = <0x00 0x26000 0x1000>;
+			local-mac-address = [00 00 00 00 00 00];
+			interrupts = <0x1f 0x02 0x00 0x00 0x20 0x02 0x00 0x00 0x21 0x02 0x00 0x00>;
+			interrupt-parent = <0x01>;
+			phy-handle = <0x04>;
+			fixed-link = <0x02 0x01 0x3e8 0x00 0x00>;
 			phy-connection-type = "rgmii-id";
 			fsl,magic-packet;
-			fixed-link {
-				speed = <1000>;
-				full-duplex;
-			};
+			fsl,pmc-handle = <0x05>;
 		};
 
 		usb@22000 {
 			phy_type = "ulpi";
 			dr_mode = "host";
+		};
+
+		mdio@24520 {
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			compatible = "fsl,gianfar-mdio";
+			reg = <0x24520 0x20>;
 		};
 
 		ptp_clock@24e00 {
@@ -361,6 +246,13 @@
 			fsl,max-adj = <249999999>;
 		};
 		
+		mdio@26520 {
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			compatible = "fsl,gianfar-tbi";
+			reg = <0x26520 0x20>;
+		};
+
 		pic@40000 {
 			interrupt-controller;
 			#address-cells = <0x00>;
