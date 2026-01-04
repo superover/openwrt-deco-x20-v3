@@ -51,12 +51,6 @@ make -j$(nproc) V=s
 6. Locate Firmware
 Your images will be generated here: bin/targets/ramips/mt7621/openwrt-ramips-mt7621-tplink_deco-x20-v3-squashfs-factory.bin
 
-Quick Troubleshooting
-Wrong Target: If it builds for Filogic, run rm -rf tmp && make defconfig.
-
-Build Errors: Run make -j1 V=s to see the exact error at the bottom.
-
-Cleanup: Use make dirclean to reset everything except your .config.
 
 
 
