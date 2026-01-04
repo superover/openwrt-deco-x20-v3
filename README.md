@@ -3,6 +3,80 @@ My personal binary builds, based on https://github.com/dmascord/openwrt
 This is for testing purposes only.
 
 
+This guide assumes you are starting in a clean directory on Arch Linux.
+
+
+1. Prepare Environment
+Bash
+
+sudo pacman -S --needed base-devel ncurses git libxcrypt-compat \
+    python unzip time gettext file wget fill-utils-host
+
+2. Clone & Setup Feeds
+Bash
+
+git clone https://git.openwrt.org/openwrt/openwrt.git openwrt-deco
+cd openwrt-deco
+./scripts/feeds update -a && ./scripts/feeds install -a
+
+3. Merge Deco X20 v3 Support
+Bash
+
+git remote add dmascord https://github.com/dmascord/openwrt.git
+git fetch dmascord
+
+git checkout dmascord/tp-link-deco-x20-v3 -- \
+    target/linux/ramips/dts/mt7621-tplink-deco-x20-v3.dts \
+    target/linux/ramips/image/mt7621.mk
+
+4. Configure Build
+Run make menuconfig
+
+Select these specific settings:
+
+Target System: MediaTek Ralink MIPS
+
+Subtarget: MT7621 based boards
+
+Target Profile: TP-Link Deco X20 v3
+
+Save and Exit.
+
+5. Compile
+Bash
+
+make defconfig
+make -j$(nproc) V=s
+
+6. Locate Firmware
+Your images will be generated here: bin/targets/ramips/mt7621/openwrt-ramips-mt7621-tplink_deco-x20-v3-squashfs-factory.bin
+
+Quick Troubleshooting
+Wrong Target: If it builds for Filogic, run rm -rf tmp && make defconfig.
+
+Build Errors: Run make -j1 V=s to see the exact error at the bottom.
+
+Cleanup: Use make dirclean to reset everything except your .config.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
