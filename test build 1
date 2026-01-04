@@ -1,0 +1,21 @@
+# 1. Clone Official OpenWrt
+git clone https://git.openwrt.org/openwrt/openwrt.git
+cd openwrt
+./scripts/feeds update -a && ./scripts/feeds install -a
+
+# 2. Add dmascord and fetch
+git remote add dmascord https://github.com/dmascord/openwrt.git
+git fetch dmascord
+
+# 3. Pull Hardware AND Tooling support (Crucial!)
+git checkout dmascord/tp-link-deco-x20-v3 -- target/linux/ramips tools/firmware-utils
+
+# 4. Build the custom host tools first
+make tools/firmware-utils/compile V=s
+
+# 5. Configure and Build Firmware
+echo "CONFIG_TARGET_ramips=y
+CONFIG_TARGET_ramips_mt7621=y
+CONFIG_TARGET_ramips_mt7621_DEVICE_tplink_deco-x20-v3=y" > .config
+make defconfig
+make -j$(nproc) V=s
