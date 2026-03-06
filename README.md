@@ -1,3 +1,7 @@
+March 2026 build: https://github.com/superover/openwrt-deco-x20-v3/releases/tag/march-2026
+
+-----------------------------------------------------------------------
+
 My personal binary builds, based on https://github.com/dmascord/openwrt
 
 This is for testing purposes only.
